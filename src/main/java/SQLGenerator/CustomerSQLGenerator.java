@@ -1,22 +1,6 @@
 package SQLGenerator;
 
-import Entity.Customer;
-
-public class CustomerSQLGenerator implements SQLGenerator<Customer> {
-
-    @Override
-    public String insert(Customer toInsert) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO customers ")
-                .append("(name, surname, age) VALUES ('")
-                .append(toInsert.getName())
-                .append("', '")
-                .append(toInsert.getSurname())
-                .append("', '")
-                .append(toInsert.getAge())
-                .append("');");
-        return sb.toString();
-    }
+public class CustomerSQLGenerator implements SQLGenerator{
 
     @Override
     public String createTable() {
@@ -29,8 +13,4 @@ public class CustomerSQLGenerator implements SQLGenerator<Customer> {
         return sb.toString();
     }
 
-
-    public String checkLast() {
-        return "SELECT * FROM customers ORDER BY id DESC LIMIT 1";
-    }
 }

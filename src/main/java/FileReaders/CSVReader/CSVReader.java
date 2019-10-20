@@ -1,5 +1,4 @@
-package FileReaders;
-
+package FileReaders.CSVReader;
 
 
 import Entity.Contact;
@@ -43,7 +42,6 @@ public class CSVReader {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 

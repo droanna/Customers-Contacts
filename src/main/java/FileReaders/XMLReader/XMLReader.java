@@ -1,4 +1,4 @@
-package FileReaders;
+package FileReaders.XMLReader;
 
 import Entity.Contact;
 import Entity.Customer;

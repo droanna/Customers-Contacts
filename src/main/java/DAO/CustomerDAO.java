@@ -1,49 +1,38 @@
 package DAO;
 
 import Entity.Customer;
-import SQLGenerator.CustomerSQLGenerator;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.*;
 import java.util.List;
 
 
 public class CustomerDAO extends BaseDAO<Customer> {
 
-    private CustomerSQLGenerator customerSQLGenerator = new CustomerSQLGenerator();
 
     @Override
     public void insert(Customer customer) {
-        query = customerSQLGenerator.insert(customer);
-        execute();
-        query = customerSQLGenerator.checkLast();
-        List<Customer> result = executeSelect();
-        customer.setId(result.get(0).getId());
-    }
-
-    @Override
-    public void createTable() {
-        query = customerSQLGenerator.createTable();
-        execute();
-    }
-
-    @Override
-    public List<Customer> parse(ResultSet resultSet) {
-        List<Customer> result = new ArrayList<>();
+        query = "INSERT INTO customers (name, surname, age) VALUES (?,?,?)";
         try {
-            while (resultSet.next()){
-                long id = resultSet.getLong("id");
-                String name = resultSet.getString("name");
-                String surname = resultSet.getString("surname");
-                int age = resultSet.getInt("age");
-                result.add(new Customer(id, name, surname, age));
+            Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, customer.getName());
+            statement.setString(2, customer.getSurname());
+            if(customer.getAge()!=0){
+                statement.setInt(3, customer.getAge());
+            } else{
+                statement.setNull(3, Types.INTEGER);
             }
-        } catch (SQLException e){
+            statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if(generatedKeys.next()) {
+                customer.setId(generatedKeys.getLong(1));
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
     }
+
 
     @Override
     public void insertAll(List<Customer> listToInsert) {

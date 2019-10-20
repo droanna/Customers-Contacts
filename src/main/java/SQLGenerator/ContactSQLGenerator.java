@@ -1,21 +1,6 @@
 package SQLGenerator;
 
-import Entity.Contact;
-
-public class ContactSQLGenerator implements SQLGenerator<Contact> {
-
-    @Override
-    public String insert(Contact toInsert) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO contacts (id_customer, type, contact) VALUES ('")
-                .append(toInsert.getCustomer().getId())
-                .append("', '")
-                .append(toInsert.getType())
-                .append("', '")
-                .append(toInsert.getContact())
-                .append("');");
-        return sb.toString();
-    }
+public class ContactSQLGenerator implements SQLGenerator {
 
     @Override
     public String createTable() {

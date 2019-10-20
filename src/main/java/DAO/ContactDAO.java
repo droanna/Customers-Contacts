@@ -1,44 +1,15 @@
 package DAO;
 
 import Entity.Contact;
-import SQLGenerator.ContactSQLGenerator;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContactDAO extends BaseDAO<Contact> {
 
-    private ContactSQLGenerator contactSQLGenerator = new ContactSQLGenerator();
 
     @Override
     public void insert(Contact contact) {
-        query = contactSQLGenerator.insert(contact);
+        query = insertQuery(contact);
         execute();
-    }
-
-    @Override
-    public void createTable() {
-        query = contactSQLGenerator.createTable();
-        execute();
-    }
-
-    @Override
-    public List<Contact> parse(ResultSet resultSet) {
-        List<Contact> result = new ArrayList<>();
-        try {
-            while (resultSet.next()){
-                long id = resultSet.getLong("id");
-                long customerID = resultSet.getLong("id_customer");
-                int type = resultSet.getInt("type");
-                String contact = resultSet.getString("contact");
-                result.add(new Contact(id, customerID, type, contact));
-            }
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        return result;
     }
 
     @Override
@@ -47,4 +18,17 @@ public class ContactDAO extends BaseDAO<Contact> {
             insert(c);
         }
     }
+
+    public String insertQuery(Contact toInsert) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("INSERT INTO contacts (id_customer, type, contact) VALUES ('")
+                .append(toInsert.getCustomer().getId())
+                .append("', '")
+                .append(toInsert.getType())
+                .append("', '")
+                .append(toInsert.getContact())
+                .append("');");
+        return sb.toString();
+    }
+
 }

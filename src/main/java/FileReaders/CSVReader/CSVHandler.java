@@ -1,4 +1,4 @@
-package FileReaders;
+package FileReaders.CSVReader;
 
 import Entity.Contact;
 import Entity.Customer;
@@ -11,11 +11,13 @@ public class CSVHandler {
     boolean isDigit;
     boolean isEmail;
     boolean isPhone;
-    private Customer customer = new Customer();
+    private Customer customer;
     private Contact contact = new Contact();
-    private List<Contact> customerContacts = new ArrayList<>();
+    private List<Contact> customerContacts;
 
     public void parseLine(String line) {
+        customer = new Customer();
+        customerContacts = new ArrayList<>();
         String separator = ",";
         String[] elements = line.split(separator);
         customer.setName(elements[0]);
@@ -40,7 +42,6 @@ public class CSVHandler {
                 contact.setType(0);
             }
             contact.setContact(element);
-            System.out.println(contact);
 
             customerContacts.add(contact);
         }

@@ -6,7 +6,6 @@ public class Contact implements Entity{
     private Customer customer;
     private int type;
     private String contact;
-    private long customerID;
 
     public Contact(long id, Customer customer, int type, String contact) {
         this.id = id;
@@ -22,13 +21,6 @@ public class Contact implements Entity{
         this.customer = customer;
         this.type = type;
         this.contact = contact;
-    }
-
-    public Contact(long id, long customerID, int type, String contact) {
-        this.id = id;
-        this.type = type;
-        this.contact = contact;
-        this.customerID = customerID;
     }
 
     public long getId() {
