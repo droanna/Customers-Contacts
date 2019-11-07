@@ -26,7 +26,7 @@ public class DataBaseGenerator {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8", USER, PASSWORD);
             Statement statement = connection.createStatement();
-            query = "CREATE database IF NOT EXISTS britenet";
+            query = "CREATE database IF NOT EXISTS customers-contacts";
             statement.execute(query);
             statement.close();
             connection.close();
